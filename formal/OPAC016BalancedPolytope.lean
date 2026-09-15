@@ -30,6 +30,14 @@ def others {b : ℕ} (i : Fin b) : Finset (Fin b) :=
 noncomputable def averageARoot {b : ℕ} (i : Fin b) : Coord b :=
   ∑ j ∈ others i, ((1 : ℝ) / ((b : ℝ) - 1)) • aRoot i j
 
+noncomputable def coordLinear {b : ℕ} (i : Fin b) : Coord b →ₗ[ℝ] ℝ where
+  toFun x := x i
+  map_add' _ _ := rfl
+  map_smul' _ _ := rfl
+
+@[simp] theorem coordLinear_apply {b : ℕ} (i : Fin b) (x : Coord b) :
+    coordLinear i x = x i := rfl
+
 @[simp] theorem aRoot_apply_self_left {b : ℕ} {i j : Fin b} (hij : i ≠ j) :
     aRoot i j i = 1 := by
   simp [aRoot, coordVec, hij]
@@ -67,7 +75,7 @@ theorem others_card {b : ℕ} (i : Fin b) : (others i).card = b - 1 := by
 
 theorem cast_b_sub_one {b : ℕ} (hb : 1 ≤ b) :
     ((b - 1 : ℕ) : ℝ) = (b : ℝ) - 1 := by
-  exact_mod_cast Nat.cast_sub hb 1
+  simpa using (Nat.cast_sub hb : ((b - 1 : ℕ) : ℝ) = (b : ℝ) - (1 : ℝ))
 
 theorem averageARoot_mem_polytope {b : ℕ} (hb : 2 ≤ b) (i : Fin b) :
     averageARoot i ∈ aRootPolytope b := by
@@ -105,8 +113,9 @@ theorem averageARoot_apply_self {b : ℕ} (hb : 2 ≤ b) (i : Fin b) :
   have hd : 0 < (b : ℝ) - 1 := by
     have hbR : (1 : ℝ) < b := by exact_mod_cast hb
     linarith
-  change ∑ j ∈ others i,
-      ((1 : ℝ) / ((b : ℝ) - 1)) * aRoot i j i = 1
+  change coordLinear i (averageARoot i) = 1
+  rw [averageARoot, map_sum]
+  simp only [map_smul, coordLinear_apply, smul_eq_mul]
   have hroot : ∀ j ∈ others i, aRoot i j i = 1 := by
     intro j hj
     have hij : i ≠ j := (Finset.mem_erase.mp hj).1.symm
@@ -119,13 +128,12 @@ theorem averageARoot_apply_self {b : ℕ} (hb : 2 ≤ b) (i : Fin b) :
 theorem averageARoot_apply_ne {b : ℕ} (hb : 2 ≤ b) {i k : Fin b} (hki : k ≠ i) :
     averageARoot i k = -((1 : ℝ) / ((b : ℝ) - 1)) := by
   have hkmem : k ∈ others i := by simp [others, hki]
-  change ∑ j ∈ others i,
-      ((1 : ℝ) / ((b : ℝ) - 1)) * aRoot i j k =
-        -((1 : ℝ) / ((b : ℝ) - 1))
+  change coordLinear k (averageARoot i) = -((1 : ℝ) / ((b : ℝ) - 1))
+  rw [averageARoot, map_sum]
+  simp only [map_smul, coordLinear_apply, smul_eq_mul]
   rw [Finset.sum_eq_single k]
   · simp [aRoot, coordVec, hki]
   · intro j hj hjk
-    have hji : j ≠ i := (Finset.mem_erase.mp hj).1
     have hkj : k ≠ j := by exact Ne.symm hjk
     simp [aRoot, coordVec, hki, hkj]
   · exact hkmem
@@ -135,14 +143,18 @@ theorem projectedLong_eq_score_smul_average {b : ℕ} (hb : 2 ≤ b) (i : Fin b)
   ext k
   by_cases hki : k = i
   · subst k
-    simp only [PiLp.smul_apply, projectedLong_apply_self, averageARoot_apply_self hb]
+    simp only [PiLp.smul_apply, projectedLong_apply_self, averageARoot_apply_self hb, smul_eq_mul]
     simp [balancedScore]
+    ring
   · simp only [PiLp.smul_apply, projectedLong_apply_ne hki,
       averageARoot_apply_ne hb hki, smul_eq_mul]
-    have hb0 : (b : ℝ) ≠ 0 := by positivity
-    have hb1 : ((b : ℝ) - 1) ≠ 0 := by positivity
+    have hb0 : (b : ℝ) ≠ 0 := by
+      have : (0 : ℝ) < b := by exact_mod_cast (lt_of_lt_of_le (by omega : 0 < 2) hb)
+      exact ne_of_gt this
+    have hb1 : ((b : ℝ) - 1) ≠ 0 := by
+      have : (1 : ℝ) < b := by exact_mod_cast hb
+      linarith
     simp [balancedScore]
     field_simp [hb0, hb1]
-    ring
 
 end OPAC016
