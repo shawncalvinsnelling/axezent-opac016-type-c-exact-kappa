@@ -57,10 +57,11 @@ theorem longRoot_mem_longRoots {n : ℕ} (i : Fin n) (s : Bool) :
 
 theorem shortRoot_eq_midpoint {n : ℕ} (i j : Fin n) (si sj : Bool) :
     shortRoot i j si sj = midpoint ℝ (longRoot i si) (longRoot j sj) := by
-  ext k
-  rw [midpoint_eq_smul_add]
-  by_cases hki : k = i <;> by_cases hkj : k = j <;>
-    simp [shortRoot, longRoot, coordVec, hki, hkj] <;> ring
+  cases si <;> cases sj <;>
+    ext k <;>
+    rw [midpoint_eq_smul_add] <;>
+    by_cases hki : k = i <;> by_cases hkj : k = j <;>
+    simp [shortRoot, longRoot, coordVec, rootSign, hki, hkj] <;> ring
 
 theorem shortRoot_mem_longRootPolytope {n : ℕ}
     (i j : Fin n) (si sj : Bool) :
