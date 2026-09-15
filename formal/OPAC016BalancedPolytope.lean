@@ -75,7 +75,8 @@ theorem others_card {b : ℕ} (i : Fin b) : (others i).card = b - 1 := by
 
 theorem cast_b_sub_one {b : ℕ} (hb : 1 ≤ b) :
     ((b - 1 : ℕ) : ℝ) = (b : ℝ) - 1 := by
-  simpa using (Nat.cast_sub hb : ((b - 1 : ℕ) : ℝ) = (b : ℝ) - (1 : ℝ))
+  simpa only [Nat.cast_one] using
+    (Nat.cast_sub hb : ((b - 1 : ℕ) : ℝ) = (b : ℝ) - (1 : ℝ))
 
 theorem averageARoot_mem_polytope {b : ℕ} (hb : 2 ≤ b) (i : Fin b) :
     averageARoot i ∈ aRootPolytope b := by
@@ -116,27 +117,28 @@ theorem averageARoot_apply_self {b : ℕ} (hb : 2 ≤ b) (i : Fin b) :
   change coordLinear i (averageARoot i) = 1
   rw [averageARoot, map_sum]
   simp only [map_smul, coordLinear_apply, smul_eq_mul]
-  have hroot : ∀ j ∈ others i, aRoot i j i = 1 := by
+  have hsum :
+      (∑ j ∈ others i, ((1 : ℝ) / ((b : ℝ) - 1)) * aRoot i j i) =
+      ∑ j ∈ others i, ((1 : ℝ) / ((b : ℝ) - 1)) * 1 := by
+    apply Finset.sum_congr rfl
     intro j hj
-    have hij : i ≠ j := (Finset.mem_erase.mp hj).1.symm
-    exact aRoot_apply_self_left hij
-  simp_rw [hroot]
-  rw [Finset.sum_const, others_card, nsmul_eq_mul,
+    rw [aRoot_apply_self_left]
+    exact (Finset.mem_erase.mp hj).1.symm
+  rw [hsum, Finset.sum_const, others_card, nsmul_eq_mul,
     cast_b_sub_one (by omega : 1 ≤ b)]
   field_simp [ne_of_gt hd]
 
-theorem averageARoot_apply_ne {b : ℕ} (hb : 2 ≤ b) {i k : Fin b} (hki : k ≠ i) :
+theorem averageARoot_apply_ne {b : ℕ} (_hb : 2 ≤ b) {i k : Fin b} (hki : k ≠ i) :
     averageARoot i k = -((1 : ℝ) / ((b : ℝ) - 1)) := by
   have hkmem : k ∈ others i := by simp [others, hki]
   change coordLinear k (averageARoot i) = -((1 : ℝ) / ((b : ℝ) - 1))
   rw [averageARoot, map_sum]
   simp only [map_smul, coordLinear_apply, smul_eq_mul]
-  rw [Finset.sum_eq_single k]
+  rw [Finset.sum_eq_single_of_mem k hkmem]
   · simp [aRoot, coordVec, hki]
   · intro j hj hjk
     have hkj : k ≠ j := by exact Ne.symm hjk
     simp [aRoot, coordVec, hki, hkj]
-  · exact hkmem
 
 theorem projectedLong_eq_score_smul_average {b : ℕ} (hb : 2 ≤ b) (i : Fin b) :
     projectedLong i = balancedScore (b : ℝ) • averageARoot i := by
