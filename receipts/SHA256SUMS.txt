@@ -1,0 +1,1 @@
+Standalone release manifest generated from the source package; regenerate after repository changes.

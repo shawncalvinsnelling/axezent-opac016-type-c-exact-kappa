@@ -1,0 +1,9 @@
+{
+  "structural_signatures_tested": 137976,
+  "rank_limit": 30,
+  "candidate_formulas": 18,
+  "distinct_candidate_output_classes": 15,
+  "surviving_classes": [{"names":["2-2/b1","1+(b1-2)/b1"],"survives":true,"counterexample":null}],
+  "unique_rule": "kappa=1 when no balanced A-block exists; otherwise kappa=2-2/b_max. Algebraically equivalent: set b*=2 if none else b_max and kappa=2-2/b*.",
+  "all_rank_reason": "Each ambient vertex ±2e_i projects into exactly one component. Full C component gives gauge 1; inactive gives 0; balanced A block of size b gives gauge 2-2/b. The maximum is therefore forced and depends only on the largest balanced block."
+}
