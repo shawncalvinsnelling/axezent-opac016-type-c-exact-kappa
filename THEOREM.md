@@ -3,7 +3,7 @@
 **Owner:** Shawn Calvin Snelling  
 **Theorem ID:** AXZ-OPAC-016  
 **Project status:** `PROVED_EXACT / CLOSED_TYPE_C / UNIQUE_ANSWER_ISOLATED`  
-**Formal status:** `NOT_YET_FULLY_FORMALLY_VERIFIED`  
+**Formal status:** `KERNEL_VERIFIED_TYPE_C_GEOMETRIC_DILATION`  
 **External status:** `NOT_YET_EXTERNALLY_REPLICATED`  
 **Scope warning:** This is the standalone Type-C theorem. It does **not** close global OPAC-018.
 

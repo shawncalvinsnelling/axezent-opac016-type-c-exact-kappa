@@ -1,4 +1,4 @@
-name: OPAC-016 Lean Arithmetic Kernel
+name: OPAC-016 Lean Formal Kernel
 
 on:
   pull_request:
@@ -12,27 +12,54 @@ on:
       - '.github/workflows/formal.yml'
   workflow_dispatch:
 
+concurrency:
+  group: opac016-formal-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  lean-arithmetic-kernel:
+  lean-formal-kernel:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Restore pinned Lean / Mathlib cache
+        id: lean-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            ~/.elan
+            formal/.lake/packages
+          key: opac016-lean-${{ runner.os }}-${{ hashFiles('formal/lean-toolchain') }}-mathlib-v4.32.1
+          restore-keys: |
+            opac016-lean-${{ runner.os }}-
       - name: Install Elan / pinned Lean toolchain
         run: |
-          curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
+          if [ ! -x "$HOME/.elan/bin/elan" ]; then
+            curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
+          fi
           echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
       - name: Resolve Mathlib dependencies
         working-directory: formal
         run: |
-          "$HOME/.elan/bin/lake" update
           "$HOME/.elan/bin/lake" exe cache get
-      - name: Reject placeholders and project axioms
+      - name: Reject placeholders and project axioms in every project theorem
         working-directory: formal
         run: |
-          if grep -nE '\bsorry\b|\baxiom\b' OPAC016Arithmetic.lean; then
-            echo 'Lean placeholders/project axioms are not allowed.'
+          if grep -nE '\bsorry\b|^[[:space:]]*axiom\b' OPAC016*.lean; then
+            echo 'Lean placeholders/project axioms are not allowed anywhere in OPAC-016 formal source.'
             exit 1
           fi
-      - name: Build partial formal arithmetic kernel
+      - name: Verify geometric theorem, axiom inventory and false control
         working-directory: formal
-        run: "$HOME/.elan/bin/lake build"
+        run: python3 verify.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: opac016-geometric-verification
+          path: formal/verification_receipt.json
+      - name: Save pinned Lean / Mathlib cache
+        if: always() && steps.lean-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            ~/.elan
+            formal/.lake/packages
+          key: opac016-lean-${{ runner.os }}-${{ hashFiles('formal/lean-toolchain') }}-mathlib-v4.32.1

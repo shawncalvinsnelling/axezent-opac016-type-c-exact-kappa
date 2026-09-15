@@ -1,0 +1,647 @@
+{
+  "status": "PASS",
+  "scope": "TYPE_C_ACTUAL_LEAST_GEOMETRIC_DILATION_BALANCED_MAX_AND_SHARP_RANK",
+  "author": "Shawn Calvin Snelling",
+  "lean": "Lean (version 4.32.1, x86_64-unknown-linux-gnu, commit f054605aea4b840552cca2e725580bffd1e1b704, Release)",
+  "theorem_count": 123,
+  "axioms": {
+    "OPAC016.balancedScore_ge_one": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.full_balanced_le": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.two_balanced_le": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.compatible_same_block_le": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.incompatible_same_block_le": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.balanced_inactive_le": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.full_inactive_le": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.global_bound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.exactGeometricDilation_le_component_bound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.exactGeometricDilation_eq_balanced_max": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.exactGeometricDilation_eq_one_of_no_balanced_block": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.coordLinear_apply": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.aRoot_apply_self_left": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.aRoot_coord_le": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.aRoot_mem_aRoots": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.aRootPolytope_coord_le": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.others_card": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.cast_b_sub_one": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.averageARoot_mem_polytope": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.projectedLong_apply_self": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.projectedLong_apply_ne": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.averageARoot_apply_self": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.averageARoot_apply_ne": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.projectedLong_eq_score_smul_average": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.ones_apply": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.inner_ones_eq_sum": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.mem_zeroSumSubspace_iff": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.sum_coordVec": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.sum_ones": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.projectedLong_mem_zeroSum": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.discardedPart_mem_orthogonal": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.longRoot_decomposition": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.starProjection_longRoot_zeroSum": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.signedCoordVec_apply_self": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.signedCoordVec_apply_ne": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.signedCoordVec_flip": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.shortRoot_eq_signedCoordVec_sub": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.inner_signedCoordVec": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.inner_signedCoordVec_self": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.inner_componentNormal_eq_sum": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.inner_componentNormal_of_mem_orthogonal": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.inner_componentNormal_signedCoordVec": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.inner_componentNormal_signedCoordVec_eq_of_connected": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.componentNormal_inner_inducedRoot_zero": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.componentNormal_mem_orthogonal_of_rootSpanned": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.componentProjectedCoord_mem": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.starProjection_coord_nonfull": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.starProjection_coord_full": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.starProjection_long_nonfull": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.componentNormal_apply_anchor": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.projected_long_anchor_coordinate": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.inducedRoot_coord_le_nonfull": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.inducedPolytope_coord_le_nonfull": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.nonfull_dilation_lower_bound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.inducedRoots_neg": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.inducedPolytope_neg": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.zero_mem_inducedPolytope": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.convex_dilatedInduced": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.dilatedInduced_neg": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.smul_mem_dilatedInduced": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.projected_coord_singleton": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.coordinate_upper_certificate": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.admissibleDilation_iff_coordinate_scores": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.one_le_exactGeometricDilation": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.nonfull_score_le_exactGeometricDilation": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.exactGeometricDilation_admissible": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.exactGeometricDilation_le_admissible": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.exactGeometricDilation_isLeast": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.geometricKappa_eq_exact": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.exactGeometricDilation_lt_two": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.exactGeometricDilation_le_rank_bound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.classDifference_anchor": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.classOthers_card": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.classDifference_mem_induced": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.sum_classDifference": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.componentRootAverage_mem": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.projected_long_eq_score_average": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.coordVec_apply_self": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.coordVec_apply_ne": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.rootSign_sq": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.longRoot_mem_longRoots": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.shortRoot_eq_midpoint": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.shortRoot_mem_longRootPolytope": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.typeCRoots_subset_longRootPolytope": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.longRoots_subset_typeCRoots": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.typeCRootPolytope_eq_longRootPolytope": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.inducedRoots_subset_subspace": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.inducedRoots_subset_typeCRoots": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.rootSpanned_iff_span_inter": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.span_inducedRoots_le": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.rootSpanned_nonzero_has_root": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.coordVec_not_mem_zeroSum": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.coordDifference_mem_induced_zeroSum": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.zeroSum_rootSpanned": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.zeroSum_ne_bot": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.zeroSum_exactGeometricDilation": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.rank_one_exactGeometricDilation": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.rank_bound_isGreatest": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.top_rootSpanned": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.rank_one_isGreatest": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.mem_signedClassFinset": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.anchor_mem_signedClassFinset": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.signedClassSize_pos": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.signedBalancedAt_no_opposite": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.bool_eq_or_eq_not": [
+      "propext"
+    ],
+    "OPAC016.signedClass_fst_injOn": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.signedClassSize_le_rank": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.nonfull_anchor_balanced": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.coord_zero_of_coordVec_one_mem": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.connected_anchor_true_to_full": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.rootSign_not": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.inner_longRoot": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.inner_shortRoot": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.signedEdge_value_eq": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.signedConnected_value_eq": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.signedConnected_shortRoot_mem": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.signedEdge_complement": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.signedConnected_complement": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.signed_unbalanced_coord_zero": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.longRoot_coord_zero": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.coordVec_mem_of_orthogonal_coord_zero": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.longRoot_forces_coordinate_line": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "OPAC016.unbalanced_forces_coordinate_line": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  "source_sha256": {
+    "OPAC016Arithmetic.lean": "ff3f37f169ef76eb855065b77c3a280424781d16eff7042359be3cfe3e52b118",
+    "OPAC016BalancedMaximum.lean": "0d840eb8d302d238509fc15b68553b1f015a61fb97294ad6c2dd5b090c07751a",
+    "OPAC016BalancedPolytope.lean": "68752f2a5495cb87a79bf7b7ad378c948e955cec4a492c81ee069756735fdd34",
+    "OPAC016BalancedProjection.lean": "be72ea42a9e6bd13dcb8ed9a879b72b10699bc1f4865fc943bc11c5bc6b2c9c9",
+    "OPAC016ComponentNormal.lean": "eeaf59f6615146653c287de8f0d0433fcf498cf5fcb534d7bdd4f1471955e9a6",
+    "OPAC016ComponentOrthogonal.lean": "84010b781a94d5eaff289ca5c7f0a81affefed874e1bb495c0b59b282f5e21b5",
+    "OPAC016CoordinateProjection.lean": "9da23f4d0b051b904196636c3e0de00b12ddb750f3c95323bf007af84af7eba0",
+    "OPAC016DilationLowerBound.lean": "f9e18466c6f71735e2646cb6279ef77881d168bc193d358286fe1b9893cd17da",
+    "OPAC016ExactDilation.lean": "1592a20ebd080d377828db4d4223edc7157ee7cd72af94e80ffd3b736d9a5e5d",
+    "OPAC016Imports.lean": "7a16b336cbceb9e4820901d30a0ad10a1032d1b1fd9113a850351cdafb0f7682",
+    "OPAC016LeastDilation.lean": "2cee426c9759b5a8a36d1592cf8079aeac716609c634a004e05f1b0fae8d070a",
+    "OPAC016RootCertificate.lean": "283976b2c765b71581610bdfd7372d9700a7bff00be6cab1a251ef74b86bb95f",
+    "OPAC016RootPolytope.lean": "9a321451ed7c9a92c86e1bfcb406a23344409face40fe75c3c456d60349f39e0",
+    "OPAC016RootSpanned.lean": "6a73cde79474e54e29aa0f504598ae6033911c128381c459aa1bf608d6997d25",
+    "OPAC016SharpRank.lean": "6cada16a190ac8415a2c02d196107ee36a4c41bd1020111bc6291f4ee45eb1a0",
+    "OPAC016SignedClass.lean": "99ebeb91c90f56e0b58f221f0e09e4e1f11ffc3df6e03e1c43eb898269a86801",
+    "OPAC016SignedComponents.lean": "5395bad27e4263d72c110edb3e633e757c60a01238765b412ca0ff911868e230",
+    "lakefile.lean": "fa6f621f16f68c8e80c79e3df1bfd1525d057d730ecc03680f2b29898e306f4a",
+    "lean-toolchain": "8e3538e0ab5f81a3ee04927d8838c8c674e0e112838b4b3ce87ec218143276af",
+    "lake-manifest.json": "5f7df338738c3392fb5ef8f9a6a1035fd0d9112fa022bb1271a9f02cc847154f",
+    "verify.py": "7b2b91f3623f2fb1bf790ea50dc442358a7aa3c5e780d324d5ced7c1bf523a09"
+  },
+  "false_control_rejected": true,
+  "external_review_claimed": false
+}

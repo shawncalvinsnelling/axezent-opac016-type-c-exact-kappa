@@ -14,6 +14,6 @@
 | D10 | Every short-root case is dominated | PROVED_EXACT | Exact case inequalities |
 | D11 | Unique answer depends only on largest balanced block | PROVED_EXACT | Monotonicity + D9/D10 |
 | D12 | Global max is 2-2/n for n>=2, C1=1 | PROVED_EXACT | b_max<=n + explicit A_{n-1} witness |
-| D13 | Lean kernel proof of the full geometric theorem | OPEN | Formalization required |
+| D13 | Lean kernel proof of least geometric dilation and sharp rank bound | KERNEL_VERIFIED | `geometricKappa_eq_exact`, `exactGeometricDilation_eq_balanced_max`, `rank_bound_isGreatest`, `rank_one_isGreatest`; direct convex certificates avoid needing formal l1 gauge lemmas |
 | D14 | Independent mathematician replication | OPEN | External referee required |
 | D15 | Publication novelty/priority | OPEN | Dedicated prior-art review required |

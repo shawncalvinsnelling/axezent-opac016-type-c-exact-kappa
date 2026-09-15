@@ -5,7 +5,7 @@ Before publishing an archival referee release:
 - [ ] `THEOREM.md` statement is frozen and includes the `C_1` exception.
 - [ ] `CLAIMS_AND_NONCLAIMS.md` still excludes global OPAC-018 closure.
 - [ ] Fast exact-audit CI is green at the release commit.
-- [ ] Lean arithmetic-kernel CI is green at the release commit.
+- [ ] Lean complete-geometry verification CI is green at the release commit.
 - [ ] Heavy exact audit has been run at least once for the release commit or its omission is documented.
 - [ ] `constraints.txt` and Lean toolchain are pinned.
 - [ ] `CITATION.cff` matches author, repository, version, and release date.

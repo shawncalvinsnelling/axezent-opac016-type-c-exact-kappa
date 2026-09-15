@@ -32,16 +32,16 @@ python audit/exact_subspace_audit.py
 python audit/formula_elimination.py
 ```
 
-## Partial Lean arithmetic kernel
+## Complete geometric dilation kernel
 
 ```bash
 cd formal
 lake update
 lake exe cache get
-lake build
+python3 verify.py
 ```
 
-The Lean CI rejects `sorry` and project-defined `axiom` declarations in the arithmetic kernel. The complete signed-graph/root-polytope/projection geometry is **not yet fully encoded in Lean**.
+The gate compiles the project, inventories every theorem, audits its transitive axioms, and rejects a false theorem. The final statements use the actual root intersection, convex hull and orthogonal projection. See `formal/README.md`.
 
 ## How to report findings
 
