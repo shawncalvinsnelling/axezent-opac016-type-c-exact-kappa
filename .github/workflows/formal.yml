@@ -28,6 +28,9 @@ jobs:
             ~/.elan
             formal/.lake/packages
           key: opac016-lean-${{ runner.os }}-${{ hashFiles('formal/lean-toolchain', 'formal/lakefile.lean') }}
+          restore-keys: |
+            opac016-lean-${{ runner.os }}-
+          save-always: true
       - name: Install Elan / pinned Lean toolchain
         run: |
           if [ ! -x "$HOME/.elan/bin/elan" ]; then
