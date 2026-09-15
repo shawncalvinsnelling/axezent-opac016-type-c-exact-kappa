@@ -14,13 +14,16 @@ noncomputable def inducedRootPolytope {n : ℕ} (U : Submodule ℝ (Coord n)) :
 @[simp] theorem neg_longRoot {n : ℕ} (i : Fin n) (s : Bool) :
     - longRoot i s = longRoot i (!s) := by
   ext k
-  cases s <;> simp [longRoot, coordVec, rootSign]
+  cases s <;> by_cases hki : k = i <;>
+    simp [longRoot, coordVec, rootSign, hki]
 
 @[simp] theorem neg_shortRoot {n : ℕ}
     (i j : Fin n) (si sj : Bool) :
     - shortRoot i j si sj = shortRoot i j (!si) (!sj) := by
   ext k
-  cases si <;> cases sj <;> simp [shortRoot, coordVec, rootSign] <;> ring
+  cases si <;> cases sj <;>
+    by_cases hki : k = i <;> by_cases hkj : k = j <;>
+    simp [shortRoot, coordVec, rootSign, hki, hkj] <;> ring
 
 theorem typeCRoots_neg_mem {n : ℕ} {α : Coord n}
     (hα : α ∈ typeCRoots n) : -α ∈ typeCRoots n := by
@@ -43,7 +46,7 @@ theorem inducedRootPolytope_neg_mem {n : ℕ} {U : Submodule ℝ (Coord n)}
   have hconv : Convex ℝ {y : Coord n | -y ∈ P} := by
     intro a ha b hb r s hr hs hrs
     change -(r • a + s • b) ∈ P
-    rw [neg_add, neg_smul, neg_smul]
+    rw [neg_add, ← smul_neg, ← smul_neg]
     exact hP ha hb hr hs hrs
   have hsub : inducedRoots U ⊆ {y : Coord n | -y ∈ P} := by
     intro y hy
@@ -58,6 +61,6 @@ theorem zero_mem_inducedRootPolytope {n : ℕ}
     subset_convexHull ℝ (inducedRoots U) hα
   have hn : -α ∈ inducedRootPolytope U := inducedRootPolytope_neg_mem hp
   have hm := (convex_convexHull ℝ (inducedRoots U)).midpoint_mem hp hn
-  simpa [midpoint_eq_smul_add] using hm
+  simpa [inducedRootPolytope, midpoint_eq_smul_add] using hm
 
 end OPAC016
