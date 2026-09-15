@@ -60,10 +60,12 @@ python audit/formula_elimination.py
 ## Evidence already recorded
 
 - 4,877 exact root-spanned subspaces through `C_6` in the saved full audit.
-- 137,976 component-size signatures through rank 30.
-- 18 proposed formulas -> 15 distinct answer classes -> 14 eliminated -> 1 mathematical answer class.
+- 137,947 nonzero component-size signatures through rank 30 (zero subspaces excluded).
+- 15 submitted formulas -> 12 distinct output classes on the tested domain -> 11 rejected -> 1 surviving tested class.
 - 269,902 exact scalar adversarial checks in the fast audit, with zero failures.
 - Lean arithmetic kernel source with a no-`sorry` / no-project-axiom CI gate.
+
+Output classes mean agreement on the finite tested domain; agreement alone is not a proof of algebraic equivalence or elimination of every possible formula.
 
 Finite computation is corroborative. The universal statement is supported by the symbolic proof in `THEOREM.md`.
 
@@ -80,7 +82,7 @@ Finite computation is corroborative. The universal statement is supported by the
 
 Safe project label:
 
-`PROVED_EXACT / CLOSED_TYPE_C / UNIQUE_ANSWER_ISOLATED / 14_ALTERNATIVE_CLASSES_REFUTED`
+`PROVED_EXACT / CLOSED_TYPE_C / UNIQUE_ANSWER_ISOLATED / 11_TESTED_OUTPUT_CLASSES_REFUTED`
 
 Not yet claimed:
 

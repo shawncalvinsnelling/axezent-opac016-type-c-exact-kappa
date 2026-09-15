@@ -1,9 +1,249 @@
 {
-  "structural_signatures_tested": 137976,
-  "rank_limit": 30,
-  "candidate_formulas": 18,
-  "distinct_candidate_output_classes": 15,
-  "surviving_classes": [{"names":["2-2/b1","1+(b1-2)/b1"],"survives":true,"counterexample":null}],
-  "unique_rule": "kappa=1 when no balanced A-block exists; otherwise kappa=2-2/b_max. Algebraically equivalent: set b*=2 if none else b_max and kappa=2-2/b*.",
-  "all_rank_reason": "Each ambient vertex ±2e_i projects into exactly one component. Full C component gives gauge 1; inactive gives 0; balanced A block of size b gives gauge 2-2/b. The maximum is therefore forced and depends only on the largest balanced block."
+  "claim": "Bounded Type-C formula comparison; not proof by elimination of all formulas",
+  "status": "PASS",
+  "exact_rank_limit": 6,
+  "exact_subspace_rows": [
+    {
+      "rank": 2,
+      "nonzero_subspaces": 5
+    },
+    {
+      "rank": 3,
+      "nonzero_subspaces": 23
+    },
+    {
+      "rank": 4,
+      "nonzero_subspaces": 115
+    },
+    {
+      "rank": 5,
+      "nonzero_subspaces": 647
+    },
+    {
+      "rank": 6,
+      "nonzero_subspaces": 4087
+    }
+  ],
+  "exact_root_spanned_subspaces_tested": 4877,
+  "candidate_formulas_submitted": 15,
+  "candidate_names": [
+    "K0_constant_1",
+    "K1_2-1/b1",
+    "K2_2-2/b1 [TARGET]",
+    "K3_2-2/n",
+    "K4_2-2/sum_bal",
+    "K5_2-1/b1-1/b2",
+    "K6_max(1,2-1/b1-1/b2)",
+    "K7_2-1/n",
+    "K8_1+(b1-2)/n",
+    "K9_1+(b1-2)/b1 [algebraic target]",
+    "K10_2-2/min_bal",
+    "K11_2-2/(b1+f)",
+    "K12_1 if full else 2-2/b1",
+    "K13_2-2/(largest active component)",
+    "K14_1+(sum_bal-2)/sum_bal"
+  ],
+  "distinct_output_classes_on_tested_domain": 12,
+  "rejected_output_classes": 11,
+  "surviving_output_classes": [
+    {
+      "names": [
+        "K2_2-2/b1 [TARGET]",
+        "K9_1+(b1-2)/b1 [algebraic target]"
+      ],
+      "survives": true,
+      "first_counterexample": null
+    }
+  ],
+  "all_output_classes": [
+    {
+      "names": [
+        "K0_constant_1"
+      ],
+      "survives": false,
+      "first_counterexample": {
+        "n": 3,
+        "full_block_size": 0,
+        "balanced_blocks": [
+          3
+        ],
+        "inactive": 0,
+        "predicted": "1",
+        "actual": "4/3"
+      }
+    },
+    {
+      "names": [
+        "K1_2-1/b1"
+      ],
+      "survives": false,
+      "first_counterexample": {
+        "n": 2,
+        "full_block_size": 1,
+        "balanced_blocks": [],
+        "inactive": 1,
+        "predicted": "3/2",
+        "actual": "1"
+      }
+    },
+    {
+      "names": [
+        "K2_2-2/b1 [TARGET]",
+        "K9_1+(b1-2)/b1 [algebraic target]"
+      ],
+      "survives": true,
+      "first_counterexample": null
+    },
+    {
+      "names": [
+        "K3_2-2/n"
+      ],
+      "survives": false,
+      "first_counterexample": {
+        "n": 3,
+        "full_block_size": 1,
+        "balanced_blocks": [],
+        "inactive": 2,
+        "predicted": "4/3",
+        "actual": "1"
+      }
+    },
+    {
+      "names": [
+        "K4_2-2/sum_bal",
+        "K14_1+(sum_bal-2)/sum_bal"
+      ],
+      "survives": false,
+      "first_counterexample": {
+        "n": 4,
+        "full_block_size": 0,
+        "balanced_blocks": [
+          2,
+          2
+        ],
+        "inactive": 0,
+        "predicted": "3/2",
+        "actual": "1"
+      }
+    },
+    {
+      "names": [
+        "K5_2-1/b1-1/b2",
+        "K6_max(1,2-1/b1-1/b2)"
+      ],
+      "survives": false,
+      "first_counterexample": {
+        "n": 3,
+        "full_block_size": 0,
+        "balanced_blocks": [
+          3
+        ],
+        "inactive": 0,
+        "predicted": "7/6",
+        "actual": "4/3"
+      }
+    },
+    {
+      "names": [
+        "K7_2-1/n"
+      ],
+      "survives": false,
+      "first_counterexample": {
+        "n": 2,
+        "full_block_size": 1,
+        "balanced_blocks": [],
+        "inactive": 1,
+        "predicted": "3/2",
+        "actual": "1"
+      }
+    },
+    {
+      "names": [
+        "K8_1+(b1-2)/n"
+      ],
+      "survives": false,
+      "first_counterexample": {
+        "n": 4,
+        "full_block_size": 0,
+        "balanced_blocks": [
+          3
+        ],
+        "inactive": 1,
+        "predicted": "5/4",
+        "actual": "4/3"
+      }
+    },
+    {
+      "names": [
+        "K10_2-2/min_bal"
+      ],
+      "survives": false,
+      "first_counterexample": {
+        "n": 5,
+        "full_block_size": 0,
+        "balanced_blocks": [
+          3,
+          2
+        ],
+        "inactive": 0,
+        "predicted": "1",
+        "actual": "4/3"
+      }
+    },
+    {
+      "names": [
+        "K11_2-2/(b1+f)"
+      ],
+      "survives": false,
+      "first_counterexample": {
+        "n": 2,
+        "full_block_size": 1,
+        "balanced_blocks": [],
+        "inactive": 1,
+        "predicted": "4/3",
+        "actual": "1"
+      }
+    },
+    {
+      "names": [
+        "K12_1 if full else 2-2/b1"
+      ],
+      "survives": false,
+      "first_counterexample": {
+        "n": 4,
+        "full_block_size": 1,
+        "balanced_blocks": [
+          3
+        ],
+        "inactive": 0,
+        "predicted": "1",
+        "actual": "4/3"
+      }
+    },
+    {
+      "names": [
+        "K13_2-2/(largest active component)"
+      ],
+      "survives": false,
+      "first_counterexample": {
+        "n": 3,
+        "full_block_size": 3,
+        "balanced_blocks": [],
+        "inactive": 0,
+        "predicted": "4/3",
+        "actual": "1"
+      }
+    }
+  ],
+  "component_signature_rank_limit": 30,
+  "nonzero_component_signatures_tested": 137947,
+  "zero_subspaces_excluded": true,
+  "component_branch_failures": [],
+  "python_version": "3.12.14",
+  "sympy_version": "1.14.0",
+  "source_sha256": {
+    "formula_elimination.py": "4f4c8aa06a366ac4c506b2fab0696afe879821964d24451329065c36b421d203",
+    "exact_subspace_audit.py": "379fccafa29633894b275971d5302beeb148113b8b8d90d3598aa1ffd66d0e35"
+  },
+  "truth_boundary": "Finite output agreement is not algebraic equivalence or universal uniqueness. Geometry gauge identification uses the written proof; the audit checks exact projectors and scalar scores."
 }
