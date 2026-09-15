@@ -23,7 +23,7 @@ theorem anchor_mem_signedClassFinset {n : ℕ} (U : Submodule ℝ (Coord n))
   rw [mem_signedClassFinset]
   exact Relation.EqvGen.refl _
 
-def signedClassSize {n : ℕ} (U : Submodule ℝ (Coord n))
+noncomputable def signedClassSize {n : ℕ} (U : Submodule ℝ (Coord n))
     (a : SignedCoord n) : ℕ :=
   (signedClassFinset U a).card
 
