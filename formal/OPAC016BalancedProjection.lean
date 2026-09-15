@@ -54,6 +54,7 @@ theorem projectedLong_mem_zeroSum {b : ℕ} (i : Fin b) :
   rw [Finset.sum_sub_distrib, sum_coordVec]
   simp only [ones_apply, Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul]
   field_simp [hb]
+  norm_num
 
 theorem discardedPart_mem_orthogonal {b : ℕ} (_i : Fin b) :
     ((2 : ℝ) / b) • ones b ∈ (zeroSumSubspace b)ᗮ := by
