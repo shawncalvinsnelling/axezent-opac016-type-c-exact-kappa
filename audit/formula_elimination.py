@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import importlib.util, json
+import argparse, hashlib, importlib.util, json, platform
 from pathlib import Path
 import sympy as sp
 
@@ -51,7 +51,7 @@ def analyze(B,n):
 
 def b1(d): return d['bs'][0] if d['bs'] else 2
 def b2(d): return d['bs'][1] if len(d['bs'])>1 else 2
-def Q(x): return sp.Rational(x)
+def Q(numerator, denominator=1): return sp.Rational(numerator, denominator)
 
 candidates={
  'K0_constant_1': lambda d: Q(1),
@@ -70,24 +70,6 @@ candidates={
  'K13_2-2/(largest active component)': lambda d: Q(2)-Q(2,max(2,d['f'],b1(d))),
  'K14_1+(sum_bal-2)/sum_bal': lambda d: Q(1) if d['bsum']==0 else Q(1)+Q(d['bsum']-2,d['bsum']),
 }
-records=[]
-for n in range(2,7):
-    for B in aud.enumerate_subspaces(n):
-        if not B: continue
-        ok,detail=aud.validate(B,n)
-        if not ok: raise RuntimeError((n,B,detail))
-        records.append(analyze(B,n))
-vecs={}
-for name,fn in candidates.items():
-    out=tuple(fn(d) for d in records)
-    vecs.setdefault(out,[]).append(name)
-classes=[]
-for out,names in vecs.items():
-    bad=None
-    for pred,d in zip(out,records):
-        if pred!=d['actual']:
-            bad={'n':d['n'],'full_block_size':d['f'],'balanced_blocks':d['bs'],'inactive':d['inactive'],'predicted':str(pred),'actual':str(d['actual'])}; break
-    classes.append({'names':names,'survives':bad is None,'first_counterexample':bad})
 def partitions_min2(total,maxpart=None):
     if total==0:
         yield (); return
@@ -102,17 +84,81 @@ def component_signatures(nmax=30):
         for f in [0]+list(range(1,n+1)):
             rem=n-f
             for bsum in range(rem+1):
-                for bs in partitions_min2(bsum): seen.add((n,f,bs,rem-bsum))
+                for bs in partitions_min2(bsum):
+                    if f or bs: seen.add((n,f,bs,rem-bsum))
     return seen
-sigs=component_signatures(30)
-branch_bad=[]
-for n,f,bs,inactive in sigs:
-    direct=max([Q(1)]+([Q(1)] if f else [])+[Q(2)-Q(2,b) for b in bs]+([Q(0)] if inactive else []))
-    bb=bs[0] if bs else 2
-    formula=Q(2)-Q(2,bb)
-    if direct!=formula:
-        branch_bad.append((n,f,bs,inactive,direct,formula)); break
-receipt={'claim':'OPAC-016 formula elimination for Type C_n exact kappa','exact_root_spanned_subspaces_tested':len(records),'candidate_formulas_submitted':len(candidates),'distinct_answer_rules_after_algebraic/output_equivalence':len(classes),'surviving_equivalence_classes':[c for c in classes if c['survives']],'component_size_signatures_exhausted_through_rank':30,'component_signatures_tested':len(sigs),'component_branch_failures':len(branch_bad),'unique_surviving_mathematical_rule':'kappa(C_n,U)=1 if there is no balanced A-block; otherwise 2-2/b_max.','global_max':'kappa(C_1)=1; for n>=2, kappa(C_n)=2-2/n, attained by the A_{n-1} zero-sum hyperplane.','truth_boundary':'Finite formula elimination supports the written all-rank proof; it is not the proof itself.'}
-Path('receipts').mkdir(exist_ok=True)
-Path('receipts/formula_elimination_receipt.generated.json').write_text(json.dumps(receipt,indent=2))
-print(json.dumps(receipt,indent=2))
+
+def classify(records):
+    vecs={}
+    for name,fn in candidates.items():
+        out=tuple(fn(d) for d in records)
+        vecs.setdefault(out,[]).append(name)
+    classes=[]
+    for out,names in vecs.items():
+        bad=None
+        for pred,d in zip(out,records):
+            if pred!=d['actual']:
+                bad={'n':d['n'],'full_block_size':d['f'],'balanced_blocks':d['bs'],'inactive':d['inactive'],'predicted':str(pred),'actual':str(d['actual'])}; break
+        classes.append({'names':names,'survives':bad is None,'first_counterexample':bad})
+    return classes
+
+def run(max_rank=6, signature_rank=30):
+    if max_rank < 2 or signature_rank < 2:
+        raise ValueError("rank limits must be at least 2")
+    records=[]; rows=[]
+    for n in range(2,max_rank+1):
+        subspaces=sorted(aud.enumerate_subspaces(n))
+        count=0
+        for B in subspaces:
+            if not B: continue
+            ok,detail=aud.validate(B,n)
+            if not ok: raise RuntimeError((n,B,detail))
+            records.append(analyze(B,n)); count+=1
+        rows.append({'rank':n,'nonzero_subspaces':count})
+        print(f"Completed C{n}: {count} nonzero subspaces",flush=True)
+    classes=classify(records)
+    sigs=component_signatures(signature_rank)
+    failures=[]
+    for n,f,bs,inactive in sorted(sigs):
+        direct=max([Q(1)]+[Q(2)-Q(2,b) for b in bs])
+        formula=Q(2)-Q(2,bs[0]) if bs else Q(1)
+        if direct!=formula:
+            failures.append({'n':n,'f':f,'bs':bs,'inactive':inactive})
+    target=next(c for c in classes if 'K2_2-2/b1 [TARGET]' in c['names'])
+    if not target['survives'] or failures:
+        raise RuntimeError('Target audit failed')
+    receipt={
+        'claim':'Bounded Type-C formula comparison; not proof by elimination of all formulas',
+        'status':'PASS',
+        'exact_rank_limit':max_rank,
+        'exact_subspace_rows':rows,
+        'exact_root_spanned_subspaces_tested':len(records),
+        'candidate_formulas_submitted':len(candidates),
+        'candidate_names':list(candidates),
+        'distinct_output_classes_on_tested_domain':len(classes),
+        'rejected_output_classes':sum(not c['survives'] for c in classes),
+        'surviving_output_classes':[c for c in classes if c['survives']],
+        'all_output_classes':classes,
+        'component_signature_rank_limit':signature_rank,
+        'nonzero_component_signatures_tested':len(sigs),
+        'zero_subspaces_excluded':True,
+        'component_branch_failures':failures,
+        'python_version':platform.python_version(),
+        'sympy_version':sp.__version__,
+        'source_sha256':{p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in (Path(__file__), HERE/'exact_subspace_audit.py')},
+        'truth_boundary':'Finite output agreement is not algebraic equivalence or universal uniqueness. Geometry gauge identification uses the written proof; the audit checks exact projectors and scalar scores.'
+    }
+    return receipt
+
+def main():
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--max-rank',type=int,default=6)
+    parser.add_argument('--signature-rank',type=int,default=30)
+    parser.add_argument('--output',type=Path,default=Path('receipts/formula_elimination_receipt.generated.json'))
+    args=parser.parse_args()
+    receipt=run(args.max_rank,args.signature_rank)
+    args.output.parent.mkdir(parents=True,exist_ok=True)
+    args.output.write_text(json.dumps(receipt,indent=2)+'\n')
+    print(json.dumps(receipt,indent=2))
+
+if __name__=='__main__': main()
