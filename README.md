@@ -29,24 +29,28 @@ with the `n >= 2` maximum attained by the zero-sum `A_{n-1}` hyperplane.
 
 ## Start here
 
-1. [`THEOREM.md`](THEOREM.md) — frozen theorem and symbolic proof.
-2. [`docs/REFEREE_RELEASE.md`](docs/REFEREE_RELEASE.md) — compact 10/10 referee release.
-3. [`docs/DEPENDENCY_MATRIX.md`](docs/DEPENDENCY_MATRIX.md) — proof dependency ledger.
-4. [`docs/REFEREE_CHECKLIST.md`](docs/REFEREE_CHECKLIST.md) — hostile-referee checklist.
-5. [`docs/PRIOR_ART_BOUNDARY.md`](docs/PRIOR_ART_BOUNDARY.md) — novelty and literature boundary.
-6. [`audit/`](audit/) — exact-rational verification programs.
-7. [`receipts/`](receipts/) — machine-readable evidence.
-8. [`formal/`](formal/) — Lean arithmetic kernel and formalization boundary.
+1. [`START_REVIEW_HERE.md`](START_REVIEW_HERE.md) — referee entry point.
+2. [`THEOREM.md`](THEOREM.md) — frozen theorem and symbolic proof.
+3. [`CLAIMS_AND_NONCLAIMS.md`](CLAIMS_AND_NONCLAIMS.md) — truth boundary.
+4. [`docs/REFEREE_RELEASE.md`](docs/REFEREE_RELEASE.md) — compact referee release.
+5. [`docs/DEPENDENCY_MATRIX.md`](docs/DEPENDENCY_MATRIX.md) — proof dependency ledger.
+6. [`docs/REFEREE_CHECKLIST.md`](docs/REFEREE_CHECKLIST.md) — hostile-referee checklist.
+7. [`REFEREE_REPORT_TEMPLATE.md`](REFEREE_REPORT_TEMPLATE.md) — independent review report form.
+8. [`docs/EXTERNAL_REPLICATION_POLICY.md`](docs/EXTERNAL_REPLICATION_POLICY.md) — requirements for `EXTERNALLY_REPLICATED`.
+9. [`docs/LITERATURE_COMPARISON.md`](docs/LITERATURE_COMPARISON.md) — prior-art comparison and priority boundary.
+10. [`ERRATA.md`](ERRATA.md) and [`CHANGELOG.md`](CHANGELOG.md) — permanent correction/change ledger.
 
 ## Reproduce the fast audit
 
+The referee CI pins Python 3.11, SymPy, and pytest via `constraints.txt`.
+
 ```bash
-python -m pip install -r requirements-dev.txt
+python -m pip install -c constraints.txt -r requirements-dev.txt
 python audit/fast_adversarial_audit.py
 python -m pytest -q
 ```
 
-The full `C_2..C_6` subspace enumeration is intentionally separate because it is much heavier:
+The full `C_2..C_6` subspace enumeration is intentionally separate because it is much heavier. It can be run manually or from the **OPAC-016 Heavy Exact Audit** GitHub Action:
 
 ```bash
 python audit/exact_subspace_audit.py
@@ -58,10 +62,19 @@ python audit/formula_elimination.py
 - 4,877 exact root-spanned subspaces through `C_6` in the saved full audit.
 - 137,976 component-size signatures through rank 30.
 - 18 proposed formulas -> 15 distinct answer classes -> 14 eliminated -> 1 mathematical answer class.
-- 269,902 exact scalar adversarial checks in the fast 10/10 audit, with zero failures.
+- 269,902 exact scalar adversarial checks in the fast audit, with zero failures.
 - Lean arithmetic kernel source with a no-`sorry` / no-project-axiom CI gate.
 
 Finite computation is corroborative. The universal statement is supported by the symbolic proof in `THEOREM.md`.
+
+## External review governance
+
+- Every referee report must name the exact commit SHA reviewed.
+- Mathematical objections, candidate counterexamples, reproducibility failures, prior-art reports, and Lean issues each have a dedicated GitHub issue form.
+- `EXTERNALLY_REPLICATED` is reserved for a qualifying independent mathematical review under `docs/EXTERNAL_REPLICATION_POLICY.md`.
+- Reviewed commits are never silently rewritten; corrections go into `ERRATA.md`, `CHANGELOG.md`, and a new version.
+- `docs/RELEASE_CHECKLIST.md` defines the archival release/DOI handoff.
+- `docs/AI_ASSISTANCE_DISCLOSURE.md` records AI and computational assistance transparently.
 
 ## Truth boundary
 
