@@ -1,4 +1,4 @@
-import Mathlib
+import OPAC016Imports
 import OPAC016ComponentNormal
 import OPAC016RootSpanned
 
@@ -24,14 +24,12 @@ theorem componentNormal_inner_inducedRoot_zero {n : ℕ}
     rw [inner_componentNormal_eq_sum]
     apply Finset.sum_eq_zero
     intro a ha
-    rcases a with ⟨k, t⟩
-    have hconn : signedConnected U (i, true) (k, t) :=
+    have hconn : signedConnected U (i, true) a :=
       mem_signedClassFinset.mp ha
-    have hne : k ≠ j := by
-      intro hkj
-      subst k
+    have hne : a.1 ≠ j := by
+      intro heq
       have hifull : coordVec i 1 ∈ U :=
-        connected_anchor_true_to_full U i j t hconn hjfull 1
+        connected_anchor_true_to_full U i j a.2 (by simpa only [← heq] using hconn) hjfull 1
       exact hnfull hifull
     simp [signedValue, longRoot, coordVec, hne]
   · rcases hshort with ⟨p, q, sp, sq, hpq, rfl⟩
@@ -58,9 +56,9 @@ theorem componentNormal_mem_orthogonal_of_rootSpanned {n : ℕ}
   · intro x hx
     exact componentNormal_inner_inducedRoot_zero hnfull hx
   · simp
-  · intro x y hx hy ihx ihy
-    simpa [inner_add_right, ihx, ihy]
-  · intro c x hx ihx
-    simpa [real_inner_smul_right, ihx]
+  · intro x y _ _ hx hy
+    simpa [inner_add_right, hx, hy]
+  · intro c x _ hx
+    simpa [real_inner_smul_right, hx]
 
 end OPAC016

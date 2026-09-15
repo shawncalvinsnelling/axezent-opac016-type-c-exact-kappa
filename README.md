@@ -2,10 +2,10 @@
 
 **Author / project owner:** Shawn Calvin Snelling  
 **Repository status:** `PROVED_EXACT / CLOSED_TYPE_C / UNIQUE_ANSWER_ISOLATED`  
-**Formal status:** `PARTIAL_ARITHMETIC_KERNEL / FULL_GEOMETRY_NOT_YET_FORMALLY_VERIFIED`  
+**Formal status:** `KERNEL_VERIFIED_TYPE_C_GEOMETRIC_DILATION`  
 **External status:** `NOT_YET_EXTERNALLY_REPLICATED`
 
-This repository is the standalone home for **AXZ-OPAC-016**. It contains the symbolic all-finite-rank Type-C theorem, adversarial exact-rational audits, the saved answer-elimination evidence, referee documentation, and a Lean arithmetic kernel.
+This repository is the standalone home for **AXZ-OPAC-016**. It contains the symbolic all-finite-rank Type-C theorem, adversarial exact-rational audits, the saved answer-elimination evidence, referee documentation, and a Lean proof of the least geometric dilation and sharp rank bound.
 
 > **Scope boundary:** this repository does **not** claim that global OPAC-018 is solved.
 
@@ -60,12 +60,14 @@ python audit/formula_elimination.py
 ## Evidence already recorded
 
 - 4,877 exact root-spanned subspaces through `C_6` in the saved full audit.
-- 137,976 component-size signatures through rank 30.
-- 18 proposed formulas -> 15 distinct answer classes -> 14 eliminated -> 1 mathematical answer class.
+- 137,947 nonzero component-size signatures through rank 30 (zero subspaces excluded).
+- 15 submitted formulas -> 12 distinct output classes on the tested domain -> 11 rejected -> 1 surviving tested class.
 - 269,902 exact scalar adversarial checks in the fast audit, with zero failures.
-- Lean arithmetic kernel source with a no-`sorry` / no-project-axiom CI gate.
+- Complete geometric dilation chain with compilation, theorem-by-theorem axiom audit, and a rejected false-theorem control.
 
-Finite computation is corroborative. The universal statement is supported by the symbolic proof in `THEOREM.md`.
+Output classes mean agreement on the finite tested domain; agreement alone is not a proof of algebraic equivalence or elimination of every possible formula.
+
+Finite computation is corroborative. The universal statement is established by the written proof in `THEOREM.md` and the Lean chain described in `formal/README.md`.
 
 ## External review governance
 
@@ -80,11 +82,10 @@ Finite computation is corroborative. The universal statement is supported by the
 
 Safe project label:
 
-`PROVED_EXACT / CLOSED_TYPE_C / UNIQUE_ANSWER_ISOLATED / 14_ALTERNATIVE_CLASSES_REFUTED`
+`PROVED_EXACT / CLOSED_TYPE_C / UNIQUE_ANSWER_ISOLATED / 11_TESTED_OUTPUT_CLASSES_REFUTED`
 
 Not yet claimed:
 
-- `FORMALLY_VERIFIED` for the complete geometric theorem;
 - `EXTERNALLY_REPLICATED` by an independent mathematician;
 - journal acceptance;
 - publication priority/novelty;

@@ -9,6 +9,7 @@ require mathlib from git
 @[default_target]
 lean_lib OPAC016Formal where
   roots := #[
+    `OPAC016Imports,
     `OPAC016Arithmetic,
     `OPAC016RootPolytope,
     `OPAC016RootSpanned,
@@ -18,6 +19,11 @@ lean_lib OPAC016Formal where
     `OPAC016SignedClass,
     `OPAC016ComponentNormal,
     `OPAC016ComponentOrthogonal,
-    `OPAC016ComponentProjection,
-    `OPAC016InducedPolytope
+    `OPAC016CoordinateProjection,
+    `OPAC016DilationLowerBound,
+    `OPAC016RootCertificate,
+    `OPAC016ExactDilation,
+    `OPAC016LeastDilation,
+    `OPAC016BalancedMaximum,
+    `OPAC016SharpRank
   ]

@@ -1,0 +1,9 @@
+import Mathlib.Analysis.InnerProductSpace.PiL2
+import Mathlib.Analysis.InnerProductSpace.Projection.Submodule
+import Mathlib.Analysis.Convex.Combination
+import Mathlib.Tactic.FieldSimp
+import Mathlib.Tactic.Linarith
+import Mathlib.Tactic.NormNum
+import Mathlib.Tactic.Positivity
+import Mathlib.Tactic.Ring
+import Mathlib.Tactic.FinCases

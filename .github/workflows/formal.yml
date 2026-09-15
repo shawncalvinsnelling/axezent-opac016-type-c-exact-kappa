@@ -40,7 +40,6 @@ jobs:
       - name: Resolve Mathlib dependencies
         working-directory: formal
         run: |
-          "$HOME/.elan/bin/lake" update
           "$HOME/.elan/bin/lake" exe cache get
       - name: Reject placeholders and project axioms in every project theorem
         working-directory: formal
@@ -49,9 +48,13 @@ jobs:
             echo 'Lean placeholders/project axioms are not allowed anywhere in OPAC-016 formal source.'
             exit 1
           fi
-      - name: Build complete current OPAC-016 formal kernel
+      - name: Verify geometric theorem, axiom inventory and false control
         working-directory: formal
-        run: "$HOME/.elan/bin/lake build"
+        run: python3 verify.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: opac016-geometric-verification
+          path: formal/verification_receipt.json
       - name: Save pinned Lean / Mathlib cache
         if: always() && steps.lean-cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@v4

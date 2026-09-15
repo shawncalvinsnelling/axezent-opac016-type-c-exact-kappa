@@ -3,7 +3,7 @@
 **Owner:** Shawn Calvin Snelling  
 **Theorem ID:** AXZ-OPAC-016  
 **Project status:** `PROVED_EXACT / CLOSED_TYPE_C / UNIQUE_ANSWER_ISOLATED`  
-**Formal status:** `NOT_YET_FULLY_FORMALLY_VERIFIED`  
+**Formal status:** `KERNEL_VERIFIED_TYPE_C_GEOMETRIC_DILATION`  
 **External status:** `NOT_YET_EXTERNALLY_REPLICATED`  
 **Scope warning:** This is the standalone Type-C theorem. It does **not** close global OPAC-018.
 
@@ -180,10 +180,10 @@ Since \(2-2/b\) increases with \(b\), the largest balanced block forces the resu
 
 The saved answer-elimination audit records:
 
-- 137,976 structural component signatures through rank 30;
-- 18 proposed formulas;
-- 15 distinct output classes;
-- 14 rejected classes;
+- 137,947 nonzero structural component signatures through rank 30;
+- 15 submitted formulas;
+- 12 distinct output classes on the tested domain;
+- 11 rejected output classes;
 - 1 surviving mathematical class, represented by
   \(2-2/b_{\max}\) and the algebraically identical
   \(1+(b_{\max}-2)/b_{\max}\).
@@ -197,6 +197,8 @@ The finite root-spanned audit through \(C_6\) records:
 - \(C_6=4,087\);
 - total \(=4,877\) nonzero root-spanned subspaces;
 - failures \(=0\).
+
+Output classes mean agreement on the finite tested domain; agreement alone is not a proof of algebraic equivalence or elimination of every possible formula.
 
 Finite computation is corroborative. The all-rank conclusion comes from the symbolic proof.
 
@@ -223,7 +225,7 @@ The signed-graph switching and classical-root-system connection are classical, a
 
 Accepted internal label:
 
-`PROVED_EXACT / CLOSED_TYPE_C / UNIQUE_ANSWER_ISOLATED / 14_ALTERNATIVE_CLASSES_REFUTED`
+`PROVED_EXACT / CLOSED_TYPE_C / UNIQUE_ANSWER_ISOLATED / 11_TESTED_OUTPUT_CLASSES_REFUTED`
 
 Not yet earned:
 
