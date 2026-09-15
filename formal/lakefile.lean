@@ -8,4 +8,4 @@ require mathlib from git
 
 @[default_target]
 lean_lib OPAC016Formal where
-  roots := #[`OPAC016Arithmetic]
+  roots := #[`OPAC016Arithmetic, `OPAC016RootPolytope]
