@@ -75,8 +75,8 @@ theorem others_card {b : ℕ} (i : Fin b) : (others i).card = b - 1 := by
 
 theorem cast_b_sub_one {b : ℕ} (hb : 1 ≤ b) :
     ((b - 1 : ℕ) : ℝ) = (b : ℝ) - 1 := by
-  simpa only [Nat.cast_one] using
-    (Nat.cast_sub hb : ((b - 1 : ℕ) : ℝ) = (b : ℝ) - (1 : ℝ))
+  rw [Nat.cast_sub hb]
+  norm_num
 
 theorem averageARoot_mem_polytope {b : ℕ} (hb : 2 ≤ b) (i : Fin b) :
     averageARoot i ∈ aRootPolytope b := by
