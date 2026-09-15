@@ -43,13 +43,14 @@ noncomputable def componentNormal {n : ℕ} (U : Submodule ℝ (Coord n))
 
 @[simp] theorem inner_signedCoordVec_self {n : ℕ} (a : SignedCoord n) :
     @inner ℝ (Coord n) _ (signedCoordVec a) (signedCoordVec a) = 1 := by
-  simp [inner_signedCoordVec, rootSign_sq]
+  rw [inner_signedCoordVec]
+  simp [rootSign_sq]
 
 theorem inner_componentNormal_eq_sum {n : ℕ} (U : Submodule ℝ (Coord n))
     (i : Fin n) (z : Coord n) :
     @inner ℝ (Coord n) _ (componentNormal U i) z =
       ∑ a ∈ signedClassFinset U (i, true), signedValue z a := by
-  rw [componentNormal, inner_sum_left]
+  simp only [componentNormal, sum_inner]
   apply Finset.sum_congr rfl
   intro a ha
   simp [signedCoordVec, signedValue, coordVec, EuclideanSpace.inner_single_left,
@@ -64,7 +65,7 @@ theorem inner_componentNormal_of_mem_orthogonal {n : ℕ}
     intro a ha
     have hconn : signedConnected U (i, true) a := mem_signedClassFinset.mp ha
     have h := signedConnected_value_eq hz hconn
-    simpa [signedValue, rootSign] using h
+    simpa [signedValue, rootSign] using h.symm
   calc
     (∑ a ∈ signedClassFinset U (i, true), signedValue z a)
         = ∑ a ∈ signedClassFinset U (i, true), z i := by
