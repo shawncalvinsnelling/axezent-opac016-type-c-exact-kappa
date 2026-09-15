@@ -13,5 +13,6 @@ lean_lib OPAC016Formal where
     `OPAC016RootPolytope,
     `OPAC016RootSpanned,
     `OPAC016BalancedProjection,
+    `OPAC016BalancedPolytope,
     `OPAC016SignedComponents
   ]
