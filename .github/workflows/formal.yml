@@ -12,14 +12,27 @@ on:
       - '.github/workflows/formal.yml'
   workflow_dispatch:
 
+concurrency:
+  group: opac016-formal-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   lean-formal-kernel:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Restore pinned Lean / Mathlib cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.elan
+            formal/.lake/packages
+          key: opac016-lean-${{ runner.os }}-${{ hashFiles('formal/lean-toolchain', 'formal/lakefile.lean') }}
       - name: Install Elan / pinned Lean toolchain
         run: |
-          curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
+          if [ ! -x "$HOME/.elan/bin/elan" ]; then
+            curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y
+          fi
           echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
       - name: Resolve Mathlib dependencies
         working-directory: formal
