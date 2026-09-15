@@ -22,15 +22,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Restore pinned Lean / Mathlib cache
-        uses: actions/cache@v4
+        id: lean-cache
+        uses: actions/cache/restore@v4
         with:
           path: |
             ~/.elan
             formal/.lake/packages
-          key: opac016-lean-${{ runner.os }}-${{ hashFiles('formal/lean-toolchain', 'formal/lakefile.lean') }}
+          key: opac016-lean-${{ runner.os }}-${{ hashFiles('formal/lean-toolchain') }}-mathlib-v4.32.1
           restore-keys: |
             opac016-lean-${{ runner.os }}-
-          save-always: true
       - name: Install Elan / pinned Lean toolchain
         run: |
           if [ ! -x "$HOME/.elan/bin/elan" ]; then
@@ -52,3 +52,11 @@ jobs:
       - name: Build complete current OPAC-016 formal kernel
         working-directory: formal
         run: "$HOME/.elan/bin/lake build"
+      - name: Save pinned Lean / Mathlib cache
+        if: always() && steps.lean-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            ~/.elan
+            formal/.lake/packages
+          key: opac016-lean-${{ runner.os }}-${{ hashFiles('formal/lean-toolchain') }}-mathlib-v4.32.1
