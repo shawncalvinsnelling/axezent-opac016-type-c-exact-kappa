@@ -59,9 +59,8 @@ theorem shortRoot_eq_midpoint {n : ℕ} (i j : Fin n) (si sj : Bool) :
     shortRoot i j si sj = midpoint ℝ (longRoot i si) (longRoot j sj) := by
   ext k
   rw [midpoint_eq_smul_add]
-  simp [shortRoot, longRoot, coordVec]
   by_cases hki : k = i <;> by_cases hkj : k = j <;>
-    simp [hki, hkj, rootSign] <;> ring
+    simp [shortRoot, longRoot, coordVec, hki, hkj] <;> ring
 
 theorem shortRoot_mem_longRootPolytope {n : ℕ}
     (i j : Fin n) (si sj : Bool) :
@@ -87,9 +86,8 @@ theorem longRoots_subset_typeCRoots (n : ℕ) :
 theorem typeCRootPolytope_eq_longRootPolytope (n : ℕ) :
     typeCRootPolytope n = longRootPolytope n := by
   apply le_antisymm
-  · apply convexHull_min
-    · exact convex_convexHull ℝ (longRoots n)
-    · exact typeCRoots_subset_longRootPolytope n
+  · exact convexHull_min (typeCRoots_subset_longRootPolytope n)
+      (convex_convexHull ℝ (longRoots n))
   · exact convexHull_mono (longRoots_subset_typeCRoots n)
 
 end OPAC016
