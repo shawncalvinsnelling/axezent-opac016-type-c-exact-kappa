@@ -32,6 +32,14 @@ noncomputable def signedCoordVec {n : ℕ} (a : SignedCoord n) : Coord n :=
     simp [signedCoordVec, rootSign_not]
   · simp [signedCoordVec, h, rootSign_not]
 
+theorem shortRoot_eq_signedCoordVec_sub {n : ℕ}
+    (i j : Fin n) (si sj : Bool) :
+    shortRoot i j si sj =
+      signedCoordVec (i, si) - signedCoordVec (j, !sj) := by
+  ext k
+  by_cases hki : k = i <;> by_cases hkj : k = j <;>
+    simp [shortRoot, signedCoordVec, coordVec, rootSign_not, hki, hkj]
+
 noncomputable def componentNormal {n : ℕ} (U : Submodule ℝ (Coord n))
     (i : Fin n) : Coord n :=
   ∑ a ∈ signedClassFinset U (i, true), signedCoordVec a
@@ -76,5 +84,106 @@ theorem inner_componentNormal_of_mem_orthogonal {n : ℕ}
           simp [nsmul_eq_mul]
     _ = (signedClassSize U (i, true) : ℝ) * z i := by
           rfl
+
+theorem inner_componentNormal_signedCoordVec {n : ℕ}
+    {U : Submodule ℝ (Coord n)} {i : Fin n}
+    (hbal : signedBalancedAt U (i, true)) (j : Fin n) (s : Bool) :
+    @inner ℝ (Coord n) _ (componentNormal U i) (signedCoordVec (j, s)) =
+      if signedConnected U (i, true) (j, s) then 1
+      else if signedConnected U (i, true) (j, !s) then -1 else 0 := by
+  rw [componentNormal, sum_inner]
+  by_cases hs : signedConnected U (i, true) (j, s)
+  · rw [if_pos hs]
+    have hsmem : (j, s) ∈ signedClassFinset U (i, true) :=
+      mem_signedClassFinset.mpr hs
+    rw [Finset.sum_eq_single_of_mem (j, s) hsmem]
+    · exact inner_signedCoordVec_self (j, s)
+    · intro c hc hne
+      rcases c with ⟨k, t⟩
+      rw [inner_signedCoordVec]
+      by_cases hkj : k = j
+      · subst k
+        rcases bool_eq_or_eq_not s t with hts | hts
+        · subst t
+          exact (hne rfl).elim
+        · subst t
+          have hcconn : signedConnected U (i, true) (j, !s) :=
+            mem_signedClassFinset.mp hc
+          have hno := signedBalancedAt_no_opposite hbal hs
+          exact (hno hcconn).elim
+      · simp [hkj]
+  · rw [if_neg hs]
+    by_cases hflip : signedConnected U (i, true) (j, !s)
+    · rw [if_pos hflip]
+      have hfmem : (j, !s) ∈ signedClassFinset U (i, true) :=
+        mem_signedClassFinset.mpr hflip
+      rw [Finset.sum_eq_single_of_mem (j, !s) hfmem]
+      · rw [inner_signedCoordVec]
+        cases s <;> norm_num [rootSign]
+      · intro c hc hne
+        rcases c with ⟨k, t⟩
+        rw [inner_signedCoordVec]
+        by_cases hkj : k = j
+        · subst k
+          rcases bool_eq_or_eq_not s t with hts | hts
+          · subst t
+            have hcconn : signedConnected U (i, true) (j, s) :=
+              mem_signedClassFinset.mp hc
+            exact (hs hcconn).elim
+          · subst t
+            exact (hne rfl).elim
+        · simp [hkj]
+    · rw [if_neg hflip]
+      apply Finset.sum_eq_zero
+      intro c hc
+      rcases c with ⟨k, t⟩
+      rw [inner_signedCoordVec]
+      by_cases hkj : k = j
+      · subst k
+        rcases bool_eq_or_eq_not s t with hts | hts
+        · subst t
+          exact (hs (mem_signedClassFinset.mp hc)).elim
+        · subst t
+          exact (hflip (mem_signedClassFinset.mp hc)).elim
+      · simp [hkj]
+
+theorem inner_componentNormal_signedCoordVec_eq_of_connected {n : ℕ}
+    {U : Submodule ℝ (Coord n)} {i : Fin n}
+    (hbal : signedBalancedAt U (i, true)) {a b : SignedCoord n}
+    (hab : signedConnected U a b) :
+    @inner ℝ (Coord n) _ (componentNormal U i) (signedCoordVec a) =
+      @inner ℝ (Coord n) _ (componentNormal U i) (signedCoordVec b) := by
+  rcases a with ⟨ia, sa⟩
+  rcases b with ⟨ib, sb⟩
+  rw [inner_componentNormal_signedCoordVec hbal,
+    inner_componentNormal_signedCoordVec hbal]
+  have hiff : signedConnected U (i, true) (ia, sa) ↔
+      signedConnected U (i, true) (ib, sb) := by
+    constructor
+    · intro h
+      exact Relation.EqvGen.trans _ _ _ h hab
+    · intro h
+      exact Relation.EqvGen.trans _ _ _ h (Relation.EqvGen.symm _ _ hab)
+  have habc := signedConnected_complement hab
+  have hiffc : signedConnected U (i, true) (ia, !sa) ↔
+      signedConnected U (i, true) (ib, !sb) := by
+    constructor
+    · intro h
+      exact Relation.EqvGen.trans _ _ _ h habc
+    · intro h
+      exact Relation.EqvGen.trans _ _ _ h (Relation.EqvGen.symm _ _ habc)
+  by_cases ha : signedConnected U (i, true) (ia, sa)
+  · have hb := hiff.mp ha
+    simp [ha, hb]
+  · have hb : ¬ signedConnected U (i, true) (ib, sb) := by
+      intro h
+      exact ha (hiff.mpr h)
+    by_cases hfa : signedConnected U (i, true) (ia, !sa)
+    · have hfb := hiffc.mp hfa
+      simp [ha, hb, hfa, hfb]
+    · have hfb : ¬ signedConnected U (i, true) (ib, !sb) := by
+        intro h
+        exact hfa (hiffc.mpr h)
+      simp [ha, hb, hfa, hfb]
 
 end OPAC016
