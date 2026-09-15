@@ -18,5 +18,6 @@ lean_lib OPAC016Formal where
     `OPAC016SignedClass,
     `OPAC016ComponentNormal,
     `OPAC016ComponentOrthogonal,
-    `OPAC016ComponentProjection
+    `OPAC016ComponentProjection,
+    `OPAC016InducedPolytope
   ]
