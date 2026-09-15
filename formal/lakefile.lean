@@ -12,5 +12,6 @@ lean_lib OPAC016Formal where
     `OPAC016Arithmetic,
     `OPAC016RootPolytope,
     `OPAC016RootSpanned,
-    `OPAC016BalancedProjection
+    `OPAC016BalancedProjection,
+    `OPAC016SignedComponents
   ]
