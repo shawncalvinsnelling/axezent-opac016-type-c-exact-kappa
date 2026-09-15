@@ -19,11 +19,11 @@ def ones (b : ℕ) : Coord b :=
 @[simp] theorem ones_apply {b : ℕ} (i : Fin b) : ones b i = 1 := by
   rfl
 
-def zeroSumSubspace (b : ℕ) : Submodule ℝ (Coord b) :=
+noncomputable def zeroSumSubspace (b : ℕ) : Submodule ℝ (Coord b) :=
   (ℝ ∙ ones b)ᗮ
 
 theorem inner_ones_eq_sum {b : ℕ} (v : Coord b) :
-    ⟪ones b, v⟫_ℝ = ∑ j, v j := by
+    @inner ℝ (Coord b) _ (ones b) v = ∑ j, v j := by
   rw [PiLp.inner_apply]
   simp [ones, RCLike.inner_apply]
 
@@ -40,17 +40,17 @@ theorem sum_ones (b : ℕ) :
     (∑ j : Fin b, ones b j) = b := by
   simp [ones]
 
-def projectedLong {b : ℕ} (i : Fin b) : Coord b :=
+noncomputable def projectedLong {b : ℕ} (i : Fin b) : Coord b :=
   coordVec i 2 - ((2 : ℝ) / b) • ones b
 
 theorem projectedLong_mem_zeroSum {b : ℕ} (i : Fin b) :
     projectedLong i ∈ zeroSumSubspace b := by
   rw [mem_zeroSumSubspace_iff]
-  have hb : (b : ℝ) ≠ 0 := by
-    have hbn : b ≠ 0 := by omega
-    exact_mod_cast hbn
-  simp only [projectedLong, Pi.sub_apply, Pi.smul_apply, smul_eq_mul]
-  rw [Finset.sum_sub_distrib, sum_coordVec, Finset.sum_mul]
+  have hi : i.val < b := i.isLt
+  have hbn : b ≠ 0 := by omega
+  have hb : (b : ℝ) ≠ 0 := by exact_mod_cast hbn
+  change (∑ j : Fin b, (coordVec i 2) j - ((2 : ℝ) / b) * (ones b) j) = 0
+  rw [Finset.sum_sub_distrib, sum_coordVec]
   simp [sum_ones, hb]
 
 theorem discardedPart_mem_orthogonal {b : ℕ} (i : Fin b) :
