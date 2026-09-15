@@ -41,7 +41,7 @@ theorem signedEdge_value_eq {n : ℕ} {U : Submodule ℝ (Coord n)}
     {z : Coord n} (hz : z ∈ Uᗮ) {a b : SignedCoord n}
     (hab : signedEdge U a b) :
     signedValue z a = signedValue z b := by
-  rcases hab with ⟨hne, hroot⟩
+  rcases hab with ⟨_, hroot⟩
   have horth : @inner ℝ (Coord n) _
       (shortRoot a.1 b.1 a.2 (!b.2)) z = 0 :=
     Submodule.inner_right_of_mem_orthogonal hroot hz
@@ -60,7 +60,7 @@ theorem signedConnected_value_eq {n : ℕ} {U : Submodule ℝ (Coord n)}
   | trans x y z hxy hyz ihxy ihyz => exact ihxy.trans ihyz
 
 theorem signedConnected_shortRoot_mem {n : ℕ} {U : Submodule ℝ (Coord n)}
-    {a b : SignedCoord n} (hne : a.1 ≠ b.1)
+    {a b : SignedCoord n} (_hne : a.1 ≠ b.1)
     (hab : signedConnected U a b) :
     shortRoot a.1 b.1 a.2 (!b.2) ∈ U := by
   rw [← U.orthogonal_orthogonal, Submodule.mem_orthogonal']
@@ -78,10 +78,15 @@ theorem signedEdge_complement {n : ℕ} {U : Submodule ℝ (Coord n)}
   have hneg : shortRoot a.1 b.1 (!a.2) (!(!b.2)) =
       - shortRoot a.1 b.1 a.2 (!b.2) := by
     ext k
-    cases a.2 <;> cases b.2 <;>
-      by_cases hka : k = a.1 <;> by_cases hkb : k = b.1
-    all_goals simp [shortRoot, coordVec, rootSign, hka, hkb] at *
-    all_goals linarith
+    by_cases hka : k = a.1
+    · subst k
+      have habne : a.1 ≠ b.1 := hne
+      simp [shortRoot, coordVec, rootSign_not, habne]
+    · by_cases hkb : k = b.1
+      · subst k
+        have hbane : b.1 ≠ a.1 := hne.symm
+        simp [shortRoot, coordVec, rootSign_not, hbane]
+      · simp [shortRoot, coordVec, rootSign_not, hka, hkb]
   rw [hneg]
   exact U.neg_mem hroot
 
