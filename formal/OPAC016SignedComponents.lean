@@ -68,7 +68,9 @@ theorem signedEdge_complement {n : ℕ} {U : Submodule ℝ (Coord n)}
       - shortRoot a.1 b.1 a.2 (!b.2) := by
     ext k
     cases a.2 <;> cases b.2 <;>
-      simp [shortRoot, coordVec, rootSign] <;> ring
+      by_cases hka : k = a.1 <;> by_cases hkb : k = b.1
+    all_goals simp [shortRoot, coordVec, rootSign, hka, hkb] at *
+    all_goals linarith
   rw [hneg]
   exact U.neg_mem hroot
 
