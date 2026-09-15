@@ -1,0 +1,42 @@
+name: Mathematical proof review
+description: Report a proof objection, missing lemma, hidden hypothesis, or scope error.
+title: "[MATH REVIEW] "
+labels: []
+body:
+  - type: input
+    id: commit
+    attributes:
+      label: Commit SHA reviewed
+      description: Paste the exact commit SHA you reviewed.
+    validations:
+      required: true
+  - type: dropdown
+    id: verdict
+    attributes:
+      label: Review verdict
+      options:
+        - No mathematical error found
+        - Clarification needed
+        - Local proof gap
+        - Counterexample or fatal error
+    validations:
+      required: true
+  - type: textarea
+    id: location
+    attributes:
+      label: Exact theorem/lemma location
+      description: Name the file, section, equation, or lemma.
+    validations:
+      required: true
+  - type: textarea
+    id: analysis
+    attributes:
+      label: Mathematical analysis
+      description: Give a self-contained argument, calculation, or objection.
+    validations:
+      required: true
+  - type: textarea
+    id: references
+    attributes:
+      label: References or related literature
+      description: Include precise citations when relevant.

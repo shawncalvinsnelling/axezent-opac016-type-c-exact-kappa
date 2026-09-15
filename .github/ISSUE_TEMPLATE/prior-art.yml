@@ -1,0 +1,36 @@
+name: Prior-art or literature overlap
+description: Report an earlier theorem, formula, proof, or paper that may overlap AXZ-OPAC-016.
+title: "[PRIOR ART] "
+labels: []
+body:
+  - type: input
+    id: citation
+    attributes:
+      label: Full citation or DOI/arXiv identifier
+    validations:
+      required: true
+  - type: textarea
+    id: statement
+    attributes:
+      label: Exact earlier statement
+      description: Quote minimally and identify theorem/proposition/page.
+    validations:
+      required: true
+  - type: textarea
+    id: overlap
+    attributes:
+      label: Overlap analysis
+      description: Compare hypotheses and conclusions to AXZ-OPAC-016.
+    validations:
+      required: true
+  - type: dropdown
+    id: impact
+    attributes:
+      label: Suggested impact
+      options:
+        - Background only
+        - Reduces novelty
+        - Appears equivalent
+        - Appears to predate the full result
+    validations:
+      required: true

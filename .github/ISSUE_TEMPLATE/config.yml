@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Start mathematical review here
+    url: https://github.com/shawncalvinsnelling/axezent-opac016-type-c-exact-kappa/blob/main/START_REVIEW_HERE.md
+    about: Read the frozen theorem, truth boundary, and reproduction steps before filing a review.

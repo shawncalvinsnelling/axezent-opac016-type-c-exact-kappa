@@ -1,0 +1,38 @@
+name: Counterexample submission
+description: Submit a candidate counterexample to the frozen AXZ-OPAC-016 theorem.
+title: "[COUNTEREXAMPLE] "
+labels: []
+body:
+  - type: input
+    id: commit
+    attributes:
+      label: Commit SHA reviewed
+    validations:
+      required: true
+  - type: input
+    id: rank
+    attributes:
+      label: Rank n
+    validations:
+      required: true
+  - type: textarea
+    id: subspace
+    attributes:
+      label: Root-spanned subspace U
+      description: Give an exact root basis or exact defining equations.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Claimed contradiction
+      description: State b_max, predicted kappa, independently computed kappa, and exact arithmetic.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduction steps
+      description: Include code, exact data, or a hand calculation sufficient for independent replay.
+    validations:
+      required: true
