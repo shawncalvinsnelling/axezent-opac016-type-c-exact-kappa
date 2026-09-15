@@ -31,8 +31,8 @@ theorem starProjection_longRoot_true_nonfull {n : ℕ}
     U.starProjection (longRoot i true) = classProjectionCandidate U i := by
   exact Submodule.eq_starProjection_of_mem_orthogonal'
     (classProjectionCandidate_mem U i)
-    (U.smul_mem_orthogonal (componentNormal_mem_orthogonal_of_rootSpanned hU hnfull)
-      ((2 : ℝ) / (signedClassSize U (i, true) : ℝ)))
+    ((Uᗮ).smul_mem ((2 : ℝ) / (signedClassSize U (i, true) : ℝ))
+      (componentNormal_mem_orthogonal_of_rootSpanned hU hnfull))
     (by simp [classProjectionCandidate])
 
 theorem longRoot_mem_of_coord_full {n : ℕ}
