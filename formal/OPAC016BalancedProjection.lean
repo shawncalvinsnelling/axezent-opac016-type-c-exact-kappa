@@ -52,7 +52,8 @@ theorem projectedLong_mem_zeroSum {b : ℕ} (i : Fin b) :
   change Finset.univ.sum
       (fun j : Fin b => (coordVec i 2) j - ((2 : ℝ) / b) * (ones b) j) = 0
   rw [Finset.sum_sub_distrib, sum_coordVec]
-  simp [sum_ones, hb]
+  simp only [ones_apply, Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul]
+  field_simp [hb]
 
 theorem discardedPart_mem_orthogonal {b : ℕ} (_i : Fin b) :
     ((2 : ℝ) / b) • ones b ∈ (zeroSumSubspace b)ᗮ := by
