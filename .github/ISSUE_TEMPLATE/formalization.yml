@@ -1,0 +1,35 @@
+name: Lean formalization issue
+description: Track a missing geometric formalization lemma or a Lean build problem.
+title: "[LEAN] "
+labels: []
+body:
+  - type: input
+    id: commit
+    attributes:
+      label: Commit SHA
+    validations:
+      required: true
+  - type: dropdown
+    id: class
+    attributes:
+      label: Issue class
+      options:
+        - Signed-component formalization
+        - Root-polytope formalization
+        - Minkowski gauge formalization
+        - Orthogonal projection formalization
+        - Short-root case split
+        - Build/toolchain problem
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: obligation
+    attributes:
+      label: Exact proof obligation or error
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed Lean strategy or patch
