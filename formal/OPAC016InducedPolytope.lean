@@ -20,10 +20,15 @@ noncomputable def inducedRootPolytope {n : ℕ} (U : Submodule ℝ (Coord n)) :
 @[simp] theorem neg_shortRoot {n : ℕ}
     (i j : Fin n) (si sj : Bool) :
     - shortRoot i j si sj = shortRoot i j (!si) (!sj) := by
-  ext k
-  cases si <;> cases sj <;>
-    by_cases hki : k = i <;> by_cases hkj : k = j <;>
-    simp [shortRoot, coordVec, rootSign, hki, hkj] <;> ring
+  by_cases hij : i = j
+  · subst j
+    ext k
+    cases si <;> cases sj <;> by_cases hki : k = i <;>
+      simp [shortRoot, coordVec, rootSign, hki]
+  · ext k
+    cases si <;> cases sj <;>
+      by_cases hki : k = i <;> by_cases hkj : k = j <;>
+      simp [shortRoot, coordVec, rootSign, hij, hki, hkj]
 
 theorem typeCRoots_neg_mem {n : ℕ} {α : Coord n}
     (hα : α ∈ typeCRoots n) : -α ∈ typeCRoots n := by
