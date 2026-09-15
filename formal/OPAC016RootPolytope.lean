@@ -3,19 +3,17 @@ import Mathlib
 /-!
 Kernel-checked geometric layer for AXZ-OPAC-016.
 
-This file starts from the actual Type-C coordinate roots.  It does not replace
-root-spanned subspaces by an easier surrogate.  The first target is the ambient
-polytope reduction used in THEOREM.md: every short Type-C root is the midpoint
-of two long roots, hence the whole Type-C root polytope is already the convex
-hull of the long-axis roots.
+The coordinate model is Mathlib's finite-dimensional EuclideanSpace, so the
+same objects used for the convex-hull proof also carry the genuine inner
+product needed by the later orthogonal-projection proof.
 -/
 
 namespace OPAC016
 
-abbrev Coord (n : ℕ) := Fin n → ℝ
+abbrev Coord (n : ℕ) := EuclideanSpace ℝ (Fin n)
 
 def coordVec {n : ℕ} (i : Fin n) (a : ℝ) : Coord n :=
-  fun j => if j = i then a else 0
+  PiLp.single 2 i a
 
 @[simp] theorem coordVec_apply_self {n : ℕ} (i : Fin n) (a : ℝ) :
     coordVec i a i = a := by
