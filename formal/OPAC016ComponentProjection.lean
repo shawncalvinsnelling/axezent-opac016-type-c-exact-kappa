@@ -1,4 +1,5 @@
 import Mathlib
+import OPAC016Arithmetic
 import OPAC016ComponentOrthogonal
 
 /-!
@@ -15,15 +16,17 @@ noncomputable def classProjectionCandidate {n : ℕ}
 theorem classProjectionCandidate_mem {n : ℕ}
     (U : Submodule ℝ (Coord n)) (i : Fin n) :
     classProjectionCandidate U i ∈ U := by
-  rw [← U.orthogonal_orthogonal, Submodule.mem_orthogonal']
-  intro z hz
-  rw [classProjectionCandidate, inner_sub_left, inner_longRoot,
-    real_inner_smul_left, inner_componentNormal_of_mem_orthogonal U i hz]
-  have hbpos : 0 < signedClassSize U (i, true) := signedClassSize_pos U (i, true)
-  have hb : (signedClassSize U (i, true) : ℝ) ≠ 0 := by
-    exact_mod_cast (Nat.ne_of_gt hbpos)
-  simp [rootSign]
-  field_simp [hb]
+  have hc : classProjectionCandidate U i ∈ Uᗮᗮ := by
+    rw [Submodule.mem_orthogonal']
+    intro z hz
+    rw [classProjectionCandidate, inner_sub_left, inner_longRoot,
+      real_inner_smul_left, inner_componentNormal_of_mem_orthogonal U i hz]
+    have hbpos : 0 < signedClassSize U (i, true) := signedClassSize_pos U (i, true)
+    have hb : (signedClassSize U (i, true) : ℝ) ≠ 0 := by
+      exact_mod_cast (Nat.ne_of_gt hbpos)
+    simp [rootSign]
+    field_simp [hb]
+  simpa using hc
 
 theorem starProjection_longRoot_true_nonfull {n : ℕ}
     {U : Submodule ℝ (Coord n)} {i : Fin n}
@@ -39,7 +42,12 @@ theorem longRoot_mem_of_coord_full {n : ℕ}
     (U : Submodule ℝ (Coord n)) (i : Fin n) (s : Bool)
     (hfull : coordVec i 1 ∈ U) : longRoot i s ∈ U := by
   have h := U.smul_mem (2 * rootSign s) hfull
-  simpa [longRoot, coordVec] using h
+  have heq : (2 * rootSign s) • coordVec i 1 = longRoot i s := by
+    ext k
+    by_cases hki : k = i <;>
+      simp [longRoot, coordVec, hki]
+  rw [← heq]
+  exact h
 
 theorem starProjection_longRoot_full {n : ℕ}
     (U : Submodule ℝ (Coord n)) (i : Fin n) (s : Bool)
@@ -51,7 +59,8 @@ theorem starProjection_longRoot_full {n : ℕ}
 theorem longRoot_eq_sign_smul_true {n : ℕ} (i : Fin n) (s : Bool) :
     longRoot i s = rootSign s • longRoot i true := by
   ext k
-  cases s <;> simp [longRoot, coordVec, rootSign]
+  cases s <;> by_cases hki : k = i <;>
+    simp [longRoot, coordVec, rootSign, hki]
 
 theorem starProjection_longRoot_nonfull {n : ℕ}
     {U : Submodule ℝ (Coord n)} {i : Fin n}
