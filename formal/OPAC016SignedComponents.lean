@@ -59,6 +59,17 @@ theorem signedConnected_value_eq {n : ℕ} {U : Submodule ℝ (Coord n)}
   | symm x y hxy ih => exact ih.symm
   | trans x y z hxy hyz ihxy ihyz => exact ihxy.trans ihyz
 
+theorem signedConnected_shortRoot_mem {n : ℕ} {U : Submodule ℝ (Coord n)}
+    {a b : SignedCoord n} (hne : a.1 ≠ b.1)
+    (hab : signedConnected U a b) :
+    shortRoot a.1 b.1 a.2 (!b.2) ∈ U := by
+  rw [← U.orthogonal_orthogonal, Submodule.mem_orthogonal']
+  intro z hz
+  have hval := signedConnected_value_eq hz hab
+  rw [inner_shortRoot, rootSign_not]
+  dsimp [signedValue] at hval
+  linarith
+
 theorem signedEdge_complement {n : ℕ} {U : Submodule ℝ (Coord n)}
     {a b : SignedCoord n} (hab : signedEdge U a b) :
     signedEdge U (a.1, !a.2) (b.1, !b.2) := by
