@@ -17,5 +17,6 @@ lean_lib OPAC016Formal where
     `OPAC016SignedComponents,
     `OPAC016SignedClass,
     `OPAC016ComponentNormal,
-    `OPAC016ComponentOrthogonal
+    `OPAC016ComponentOrthogonal,
+    `OPAC016ComponentProjection
   ]
