@@ -24,5 +24,6 @@ jobs:
         run: python -m pytest -q
       - name: Check truth-boundary language
         run: |
-          grep -q 'PROVED_EXACT' README.md
-          grep -q 'does \*\*not\*\* claim that global OPAC-018 is solved' docs/REFEREE_RELEASE.md
+          grep -Fq 'PROVED_EXACT' README.md
+          grep -Fq 'does **not** claim that global OPAC-018 is solved' README.md
+          grep -Fq 'global OPAC-018 is solved' CLAIMS_AND_NONCLAIMS.md
