@@ -5,7 +5,7 @@ import OPAC016SignedClass
 Signed normal vectors for the Type-C component decomposition.
 
 For a non-full anchor coordinate `i`, the equivalence class of `(i,true)` is
-balanced.  Summing the corresponding signed coordinate vectors gives the
+balanced. Summing the corresponding signed coordinate vectors gives the
 normal vector of that component.
 -/
 
@@ -36,9 +36,14 @@ theorem shortRoot_eq_signedCoordVec_sub {n : ℕ}
     (i j : Fin n) (si sj : Bool) :
     shortRoot i j si sj =
       signedCoordVec (i, si) - signedCoordVec (j, !sj) := by
-  ext k
-  by_cases hki : k = i <;> by_cases hkj : k = j <;>
-    simp [shortRoot, signedCoordVec, coordVec, rootSign_not, hki, hkj]
+  by_cases hij : i = j
+  · subst j
+    ext k
+    simp [shortRoot, signedCoordVec, coordVec, rootSign_not]
+    ring
+  · ext k
+    by_cases hki : k = i <;> by_cases hkj : k = j <;>
+      simp [shortRoot, signedCoordVec, coordVec, rootSign_not, hij, hki, hkj] <;> ring
 
 noncomputable def componentNormal {n : ℕ} (U : Submodule ℝ (Coord n))
     (i : Fin n) : Coord n :=
@@ -61,8 +66,7 @@ theorem inner_componentNormal_eq_sum {n : ℕ} (U : Submodule ℝ (Coord n))
   simp only [componentNormal, sum_inner]
   apply Finset.sum_congr rfl
   intro a ha
-  simp [signedCoordVec, signedValue, coordVec, EuclideanSpace.inner_single_left,
-    mul_comm]
+  simp [signedCoordVec, signedValue, coordVec, EuclideanSpace.inner_single_left]
 
 theorem inner_componentNormal_of_mem_orthogonal {n : ℕ}
     (U : Submodule ℝ (Coord n)) (i : Fin n) {z : Coord n} (hz : z ∈ Uᗮ) :
@@ -91,6 +95,7 @@ theorem inner_componentNormal_signedCoordVec {n : ℕ}
     @inner ℝ (Coord n) _ (componentNormal U i) (signedCoordVec (j, s)) =
       if signedConnected U (i, true) (j, s) then 1
       else if signedConnected U (i, true) (j, !s) then -1 else 0 := by
+  classical
   rw [componentNormal, sum_inner]
   by_cases hs : signedConnected U (i, true) (j, s)
   · rw [if_pos hs]
@@ -153,6 +158,7 @@ theorem inner_componentNormal_signedCoordVec_eq_of_connected {n : ℕ}
     (hab : signedConnected U a b) :
     @inner ℝ (Coord n) _ (componentNormal U i) (signedCoordVec a) =
       @inner ℝ (Coord n) _ (componentNormal U i) (signedCoordVec b) := by
+  classical
   rcases a with ⟨ia, sa⟩
   rcases b with ⟨ib, sb⟩
   rw [inner_componentNormal_signedCoordVec hbal,
@@ -172,18 +178,6 @@ theorem inner_componentNormal_signedCoordVec_eq_of_connected {n : ℕ}
       exact Relation.EqvGen.trans _ _ _ h habc
     · intro h
       exact Relation.EqvGen.trans _ _ _ h (Relation.EqvGen.symm _ _ habc)
-  by_cases ha : signedConnected U (i, true) (ia, sa)
-  · have hb := hiff.mp ha
-    simp [ha, hb]
-  · have hb : ¬ signedConnected U (i, true) (ib, sb) := by
-      intro h
-      exact ha (hiff.mpr h)
-    by_cases hfa : signedConnected U (i, true) (ia, !sa)
-    · have hfb := hiffc.mp hfa
-      simp [ha, hb, hfa, hfb]
-    · have hfb : ¬ signedConnected U (i, true) (ib, !sb) := by
-        intro h
-        exact hfa (hiffc.mpr h)
-      simp [ha, hb, hfa, hfb]
+  simp only [hiff, hiffc]
 
 end OPAC016
