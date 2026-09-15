@@ -48,6 +48,46 @@ theorem signedBalancedAt_no_opposite {n : ℕ} {U : Submodule ℝ (Coord n)}
     Relation.EqvGen.trans _ _ _ hbo hback
   exact hbal this
 
+theorem bool_eq_or_eq_not (s t : Bool) : t = s ∨ t = !s := by
+  cases s <;> cases t <;> simp
+
+theorem signedClass_fst_injOn {n : ℕ} {U : Submodule ℝ (Coord n)}
+    {a : SignedCoord n} (hbal : signedBalancedAt U a) :
+    Set.InjOn Prod.fst (↑(signedClassFinset U a) : Set (SignedCoord n)) := by
+  intro x hx y hy hxy
+  rcases x with ⟨ix, sx⟩
+  rcases y with ⟨iy, sy⟩
+  simp only at hxy
+  subst iy
+  have hcx : signedConnected U a (ix, sx) := by
+    exact mem_signedClassFinset.mp (by simpa using hx)
+  have hcy : signedConnected U a (ix, sy) := by
+    exact mem_signedClassFinset.mp (by simpa using hy)
+  rcases bool_eq_or_eq_not sx sy with hs | hs
+  · subst sy
+    rfl
+  · exfalso
+    have hno := signedBalancedAt_no_opposite hbal hcx
+    exact hno (by simpa [hs] using hcy)
+
+theorem signedClassSize_le_rank {n : ℕ} {U : Submodule ℝ (Coord n)}
+    {a : SignedCoord n} (hbal : signedBalancedAt U a) :
+    signedClassSize U a ≤ n := by
+  classical
+  have hinj := signedClass_fst_injOn hbal
+  have hcard : ((signedClassFinset U a).image Prod.fst).card =
+      (signedClassFinset U a).card :=
+    Finset.card_image_iff.mpr hinj
+  have hsub : (signedClassFinset U a).image Prod.fst ⊆
+      (Finset.univ : Finset (Fin n)) := by
+    intro i hi
+    simp
+  calc
+    signedClassSize U a = (signedClassFinset U a).card := rfl
+    _ = ((signedClassFinset U a).image Prod.fst).card := hcard.symm
+    _ ≤ (Finset.univ : Finset (Fin n)).card := Finset.card_le_card hsub
+    _ = n := Fintype.card_fin n
+
 theorem nonfull_anchor_balanced {n : ℕ} (U : Submodule ℝ (Coord n))
     (i : Fin n) (hnfull : coordVec i 1 ∉ U) :
     signedBalancedAt U (i, true) := by
