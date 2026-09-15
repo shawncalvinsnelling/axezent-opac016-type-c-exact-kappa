@@ -49,11 +49,12 @@ theorem projectedLong_mem_zeroSum {b : ℕ} (i : Fin b) :
   have hi : i.val < b := i.isLt
   have hbn : b ≠ 0 := by omega
   have hb : (b : ℝ) ≠ 0 := by exact_mod_cast hbn
-  change (∑ j : Fin b, (coordVec i 2) j - ((2 : ℝ) / b) * (ones b) j) = 0
+  change Finset.univ.sum
+      (fun j : Fin b => (coordVec i 2) j - ((2 : ℝ) / b) * (ones b) j) = 0
   rw [Finset.sum_sub_distrib, sum_coordVec]
   simp [sum_ones, hb]
 
-theorem discardedPart_mem_orthogonal {b : ℕ} (i : Fin b) :
+theorem discardedPart_mem_orthogonal {b : ℕ} (_i : Fin b) :
     ((2 : ℝ) / b) • ones b ∈ (zeroSumSubspace b)ᗮ := by
   apply Submodule.le_orthogonal_orthogonal
   exact Submodule.smul_mem _ _ (Submodule.mem_span_singleton_self (ones b))
