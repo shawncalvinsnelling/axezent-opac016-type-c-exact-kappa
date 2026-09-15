@@ -33,21 +33,22 @@ noncomputable def signedCoordVec {n : ℕ} (a : SignedCoord n) : Coord n :=
   · simp [signedCoordVec, h, rootSign_not]
 
 theorem shortRoot_eq_signedCoordVec_sub {n : ℕ}
-    (i j : Fin n) (si sj : Bool) :
+    (i j : Fin n) (si sj : Bool) (hij : i ≠ j) :
     shortRoot i j si sj =
       signedCoordVec (i, si) - signedCoordVec (j, !sj) := by
-  by_cases hij : i = j
-  · subst j
-    ext k
-    simp [shortRoot, signedCoordVec, coordVec, rootSign_not]
-    ring
-  · ext k
-    by_cases hki : k = i <;> by_cases hkj : k = j <;>
-      simp [shortRoot, signedCoordVec, coordVec, rootSign_not, hij, hki, hkj] <;> ring
+  ext k
+  by_cases hki : k = i <;> by_cases hkj : k = j <;>
+    simp [shortRoot, signedCoordVec, coordVec, rootSign_not, hij, hki, hkj] <;> ring
 
 noncomputable def componentNormal {n : ℕ} (U : Submodule ℝ (Coord n))
     (i : Fin n) : Coord n :=
   ∑ a ∈ signedClassFinset U (i, true), signedCoordVec a
+
+noncomputable def componentClassValue {n : ℕ} (U : Submodule ℝ (Coord n))
+    (i j : Fin n) (s : Bool) : ℝ := by
+  classical
+  exact if signedConnected U (i, true) (j, s) then 1
+    else if signedConnected U (i, true) (j, !s) then -1 else 0
 
 @[simp] theorem inner_signedCoordVec {n : ℕ} (a b : SignedCoord n) :
     @inner ℝ (Coord n) _ (signedCoordVec a) (signedCoordVec b) =
@@ -93,9 +94,9 @@ theorem inner_componentNormal_signedCoordVec {n : ℕ}
     {U : Submodule ℝ (Coord n)} {i : Fin n}
     (hbal : signedBalancedAt U (i, true)) (j : Fin n) (s : Bool) :
     @inner ℝ (Coord n) _ (componentNormal U i) (signedCoordVec (j, s)) =
-      if signedConnected U (i, true) (j, s) then 1
-      else if signedConnected U (i, true) (j, !s) then -1 else 0 := by
+      componentClassValue U i j s := by
   classical
+  unfold componentClassValue
   rw [componentNormal, sum_inner]
   by_cases hs : signedConnected U (i, true) (j, s)
   · rw [if_pos hs]
@@ -163,6 +164,7 @@ theorem inner_componentNormal_signedCoordVec_eq_of_connected {n : ℕ}
   rcases b with ⟨ib, sb⟩
   rw [inner_componentNormal_signedCoordVec hbal,
     inner_componentNormal_signedCoordVec hbal]
+  unfold componentClassValue
   have hiff : signedConnected U (i, true) (ia, sa) ↔
       signedConnected U (i, true) (ib, sb) := by
     constructor
@@ -178,6 +180,18 @@ theorem inner_componentNormal_signedCoordVec_eq_of_connected {n : ℕ}
       exact Relation.EqvGen.trans _ _ _ h habc
     · intro h
       exact Relation.EqvGen.trans _ _ _ h (Relation.EqvGen.symm _ _ habc)
-  simp only [hiff, hiffc]
+  by_cases ha : signedConnected U (i, true) (ia, sa)
+  · have hb := hiff.mp ha
+    simp [ha, hb]
+  · have hb : ¬ signedConnected U (i, true) (ib, sb) := by
+      intro h
+      exact ha (hiff.mpr h)
+    by_cases hfa : signedConnected U (i, true) (ia, !sa)
+    · have hfb := hiffc.mp hfa
+      simp [ha, hb, hfa, hfb]
+    · have hfb : ¬ signedConnected U (i, true) (ib, !sb) := by
+        intro h
+        exact hfa (hiffc.mpr h)
+      simp [ha, hb, hfa, hfb]
 
 end OPAC016
